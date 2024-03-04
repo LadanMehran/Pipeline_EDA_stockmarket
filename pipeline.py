@@ -28,6 +28,8 @@ def get_stock_data(stock_symbols, api_key):
 
     return stock_dfs
 
+stock_symbols = ['IBM', 'MSFT', 'INTC', 'ORCL']
+stock_data = get_stock_data(stock_symbols, api_key)
 
 # Transform
 
@@ -46,7 +48,7 @@ def preprocess_stock_data(df_list):
         # Remove the numbers in column names 
         df.columns = [col.split('. ')[-1] for col in df.columns]
         
-
+preprocess_stock_data(stock_data)
 
 # Checking for null/missing values (there were no missing values in the data)
 
@@ -57,21 +59,21 @@ def check_null_values(df_list):
         else:
             print(f"DataFrame {symbol} has no null values.")
             
-
+check_null_values(stock_data)
 # Calculate Returns
 
 def calculate_daily_return(df_list):
     for df in df_list:
         df['daily_return'] = df['close'].pct_change()
         
-        
+calculate_daily_return(stock_data)
 # calculate the avg volume over the past 50 minutes (rolling_avg): 
 
 def calculate_avg_volume(df_list, window_size=10):
     for df in df_list:
         df['avg_volume'] = df['volume'].rolling(window=window_size).mean()
         
-        
+calculate_avg_volume(stock_data)
         
 # Load
 # loading the data for each stock df in a separate table in snowflake
